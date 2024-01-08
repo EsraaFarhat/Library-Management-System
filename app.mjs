@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 
 import config from "./config/config.mjs";
+import "./database/connection.mjs"
 import { morganErrorHandler, morganSuccessHandler } from "./config/morgan.mjs";
 
 const app = express();
