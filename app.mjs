@@ -6,6 +6,7 @@ import cors from "cors";
 
 import config from "./config/config.mjs";
 import "./database/connection.mjs"
+import AppErrorHandler from "./config/error.mjs";
 import { morganErrorHandler, morganSuccessHandler } from "./config/morgan.mjs";
 
 const app = express();
@@ -27,5 +28,12 @@ app.use(
 );
 
 app.use(compression());
+
+app.use((req, res) => {
+    res.status(404).send({error: "Not Found"});
+})
+
+app.use(AppErrorHandler.handler);
+app.use(AppErrorHandler.notFound);
 
 export default app;
