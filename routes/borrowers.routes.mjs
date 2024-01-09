@@ -30,9 +30,9 @@ borrowersRoutes
   // Route to return books for a user
   .put(asyncWrapper(BorrowersController.returnBooks));
 
-// borrowersRoutes
-//   .route("/:id/current_books")
-//   // Route to get the books that the user currently has
-//   .get(asyncWrapper(BorrowersController.getCurrentBooks));
+borrowersRoutes
+  .route("/:id/current_books")
+  // Route to get the books that the user currently has
+  .get(asyncWrapper(BorrowersController.getCurrentBooks));
 
 export default borrowersRoutes;

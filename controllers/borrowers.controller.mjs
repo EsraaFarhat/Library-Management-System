@@ -212,17 +212,26 @@ export default class BorrowersController {
   }
 
   // Function to get the books that the user currently has
-  // static async getCurrentBooks(req, res) {
-  //   const { id } = req.params;
-  //   validateUUID(id);
+  static async getCurrentBooks(req, res) {
+    const { id } = req.params;
+    validateUUID(id);
 
-  //   let borrower = await BorrowersService.getBorrowerById(id, ["id"]);
-  //   if (!borrower) {
-  //     throw new NotFoundError(MESSAGES.BORROWER_NOT_FOUND);
-  //   }
+    const { order, orderBy, limit, offset } = handlePaginationSort(req.query);
 
-  //   borrower = await BorrowersService.deleteBorrower({ id });
+    const options = {
+      order,
+      orderBy,
+      limit,
+      offset,
+    };
 
-  //   res.send({ data: { message: MESSAGES.BORROWER_DELETED_SUCCESSFULLY } });
-  // }
+    let borrower = await BorrowersService.getBorrowerById(id, ["id"]);
+    if (!borrower) {
+      throw new NotFoundError(MESSAGES.BORROWER_NOT_FOUND);
+    }
+
+    const rows = await BorrowingsService.getBorrowings({ borrowerId: id }, null, options);
+
+    res.send({ data: rows });
+  }
 }

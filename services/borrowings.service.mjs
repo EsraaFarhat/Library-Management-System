@@ -1,3 +1,5 @@
+import BooksEntity from "../models/books.model.mjs";
+import BorrowersEntity from "../models/borrowers.model.mjs";
 import BorrowingsEntity from "../models/borrowings.model.mjs";
 
 export default class BorrowingsService {
@@ -20,8 +22,22 @@ export default class BorrowingsService {
     const { order, orderBy, limit, offset } = options;
 
     const borrowings = await BorrowingsEntity.findAndCountAll({
-      attributes,
+      attributes: attributes
+        ? attributes
+        : ["id", "checkoutDate", "returnDate", "dueDate"],
       where: filters,
+      include: [
+        {
+          model: BooksEntity,
+          as: "book",
+          attributes: ["id", "title", "author", "ISBN"],
+        },
+        {
+          model: BorrowersEntity,
+          as: "borrower",
+          attributes: ["id", "name", "email"],
+        },
+      ],
       offset,
       limit,
       order: [[orderBy, order]],
