@@ -72,4 +72,21 @@ export default class BorrowersService {
 
     return schema.validate(borrower);
   };
+
+  static borrowBooksSchema = (body) => {
+    const schema = Joi.object({
+      booksIds: Joi.array().items(Joi.string().uuid()).required(),
+      dueDate: Joi.date().required(),
+    });
+
+    return schema.validate(body);
+  };
+
+  static returnBooksSchema = (body) => {
+    const schema = Joi.object({
+      borrowingsIds: Joi.array().items(Joi.string().uuid()).required(),
+    });
+
+    return schema.validate(body);
+  };
 }

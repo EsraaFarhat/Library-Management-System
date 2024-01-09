@@ -23,6 +23,15 @@ const MESSAGES = {
   BORROWER_DELETED_SUCCESSFULLY: "Borrower deleted successfully",
   BORROWER_NOT_FOUND: "Borrower not found",
   INVALID_BORROWER_ID: "Invalid borrower id",
+
+  BOOKS_BORROWED_SUCCESSFULLY: "Books borrowed successfully",
+  BOOK_NOT_AVAILABLE: "Book not available",
+  BOOKS_RETURNED_SUCCESSFULLY: "Books returned successfully",
+
+  BOOK_ALREADY_RETURNED: "Book already returned before",
+
+  BORROWING_NOT_FOUND: "Borrowing not found",
+  BORROWING_DUE_DATE_VALIDATION: "Due date should be in the future",
 };
 
 export default MESSAGES;

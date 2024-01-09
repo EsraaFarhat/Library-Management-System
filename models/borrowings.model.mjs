@@ -1,5 +1,5 @@
 import Book from "./books.model.mjs";
-import { Borrower } from "./borrowers.model.mjs";
+import Borrower from "./borrowers.model.mjs";
 
 import { DataTypes, Model } from "sequelize";
 
@@ -23,6 +23,7 @@ Borrowing.init(
     },
     dueDate: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {
