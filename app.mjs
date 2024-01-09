@@ -1,16 +1,15 @@
-
 import express from "express";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
 
 import config from "./config/config.mjs";
-import "./database/connection.mjs"
+import "./database/connection.mjs";
 import AppErrorHandler from "./config/error.mjs";
 import { morganErrorHandler, morganSuccessHandler } from "./config/morgan.mjs";
+import booksRoutes from "./routes/books.routes.mjs";
 
 const app = express();
-
 
 app.use(morganSuccessHandler);
 app.use(morganErrorHandler);
@@ -29,9 +28,7 @@ app.use(
 
 app.use(compression());
 
-app.use((req, res) => {
-    res.status(404).send({error: "Not Found"});
-})
+app.use("/books", booksRoutes);
 
 app.use(AppErrorHandler.handler);
 app.use(AppErrorHandler.notFound);

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { InternalServerError, NotFoundError } from "../shared/app-error.mjs";
 
 export default class AppErrorHandler {
@@ -7,15 +6,18 @@ export default class AppErrorHandler {
       ? new InternalServerError(undefined, err)
       : err;
     res.locals.errorMessage = err.message;
-    const response = _.pick(error, ["statusCode", "message"]);
-    response.message =
-      typeof response.message === "object"
-        ? response.message[req.lang] || JSON.stringify(response.message)
-        : response.message;
-    res.status(response.statusCode).send(response);
+    const response = {
+      error: error.message,
+    };
+    response.error =
+      typeof response.error === "object"
+        ? response.error[req.lang] || JSON.stringify(response.error)
+        : response.error;
+    res.status(error.statusCode).send(response);
   }
 
   static notFound(req, res, next) {
-    next(new NotFoundError());
+    const error = new NotFoundError();
+    res.status(error.statusCode).send({ error: error.message });
   }
 }

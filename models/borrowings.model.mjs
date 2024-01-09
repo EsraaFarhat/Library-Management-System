@@ -36,7 +36,23 @@ Borrowing.init(
   }
 );
 
-Book.hasMany(Borrowing);
-Borrower.hasMany(Borrowing);
-Borrowing.belongsTo(Book);
-Borrowing.belongsTo(Borrower);
+Book.hasMany(Borrowing, {
+  foreignKey: "bookId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+Borrower.hasMany(Borrowing, {
+  foreignKey: "borrowerId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+Borrowing.belongsTo(Book, {
+  foreignKey: "bookId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+Borrowing.belongsTo(Borrower, {
+  foreignKey: "borrowerId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
