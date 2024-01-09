@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import { BadRequestError, NotFoundError } from "../shared/app-error.mjs";
 import BooksService from "../services/books.service.mjs";
 import MESSAGES from "../shared/messages.mjs";
@@ -34,6 +36,17 @@ export default class BooksController {
     };
 
     const filters = {};
+    if (req.query.title) {
+      filters.title = {
+        [Op.iLike]: `%${req.query.title}%`,
+      };
+    }
+    if (req.query.author) {
+      filters.author = req.query.author;
+    }
+    if (req.query.ISBN) {
+      filters.ISBN = req.query.ISBN;
+    }
     const rows = await BooksService.getBooks(filters, null, options);
 
     res.send({ data: rows });
