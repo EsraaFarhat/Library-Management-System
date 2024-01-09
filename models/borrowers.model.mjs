@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 
 import sequelize from "../database/connection.mjs";
 
-export class Borrower extends Model {}
+export default class Borrower extends Model {}
 
 Borrower.init(
   {
@@ -22,10 +22,6 @@ Borrower.init(
       validate: {
         isEmail: true,
       },
-    },
-    registeredDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
   },
   {

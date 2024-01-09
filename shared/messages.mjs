@@ -16,6 +16,13 @@ const MESSAGES = {
   BOOK_DELETED_SUCCESSFULLY: "Book deleted successfully",
   BOOK_NOT_FOUND: "Book not found",
   INVALID_BOOK_ID: "Invalid book id",
+
+  EMAIL_UNIQUE: "Email already exists",
+  BORROWER_ADDED_SUCCESSFULLY: "Borrower added successfully",
+  BORROWER_EDITED_SUCCESSFULLY: "Borrower updated successfully",
+  BORROWER_DELETED_SUCCESSFULLY: "Borrower deleted successfully",
+  BORROWER_NOT_FOUND: "Borrower not found",
+  INVALID_BORROWER_ID: "Invalid borrower id",
 };
 
 export default MESSAGES;

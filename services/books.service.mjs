@@ -57,11 +57,11 @@ export default class BooksService {
 
   static createBookSchema = (book) => {
     const schema = Joi.object({
-      title: Joi.string().trim().max(255).required(),
-      author: Joi.string().trim().max(255).required(),
-      ISBN: Joi.string().trim().max(255).required(),
+      title: Joi.string().max(255).required(),
+      author: Joi.string().max(255).required(),
+      ISBN: Joi.string().max(255).required(),
       availableQuantity: Joi.number().required(),
-      shelfLocation: Joi.string().trim().max(255).required(),
+      shelfLocation: Joi.string().max(255).required(),
     });
 
     return schema.validate(book);
@@ -69,11 +69,11 @@ export default class BooksService {
 
   static updateBookSchema = (book) => {
     const schema = Joi.object({
-      title: Joi.string().trim().max(255),
-      author: Joi.string().trim().max(255),
-      ISBN: Joi.string().trim().max(255),
+      title: Joi.string().max(255),
+      author: Joi.string().max(255),
+      ISBN: Joi.string().max(255),
       availableQuantity: Joi.number(),
-      shelfLocation: Joi.string().trim().max(255),
+      shelfLocation: Joi.string().max(255),
     });
 
     return schema.validate(book);

@@ -5,7 +5,7 @@ import { DataTypes, Model } from "sequelize";
 
 import sequelize from "../database/connection.mjs";
 
-export class Borrowing extends Model {}
+export default class Borrowing extends Model {}
 
 Borrowing.init(
   {

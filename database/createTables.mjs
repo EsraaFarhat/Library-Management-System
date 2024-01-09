@@ -7,7 +7,7 @@ import "../models/borrowings.model.mjs";
 
 (async function createTables() {
   try {
-    await sequelize.sync({force: true});
+    await sequelize.sync({ force: true });
 
     logger.info("Tables created successfully...");
     process.exit();
