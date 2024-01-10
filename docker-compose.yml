@@ -1,0 +1,44 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: library-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: library_management_system
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+
+  app:
+    # Build the Docker image from the current directory
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Map the port on which your app is running
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    # Mount the project directory into the container for live development
+    volumes:
+      - .:/usr/src/app
+    # Specify environment variables if needed
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+      PARAMETER_LIMIT: 10000
+      REQUEST_LIMIT: 20000
+      PRIVATE_KEY: your_private_key
+      DATABASE_DIALECT: postgres
+      DATABASE_PORT: 5432
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: library_management_system
+
+volumes:
+  postgres-data:

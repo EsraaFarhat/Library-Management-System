@@ -5,7 +5,8 @@
   "main": "index.mjs",
   "scripts": {
     "start": "node index.mjs",
-    "dev": "nodemon index.mjs"
+    "dev": "nodemon index.mjs",
+    "create-db": "node database/createTables.mjs"
   },
   "author": "Esraa Farhat",
   "license": "ISC",
