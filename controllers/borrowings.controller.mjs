@@ -52,4 +52,47 @@ export default class BorrowingsController {
 
     res.send({ data: borrowing });
   }
+
+  // Function to get analytics report of the borrowing process in a specific period
+  static async getBorrowingsAnalyticsInPeriod(req, res) {
+    const { startDate, endDate } = req.params;
+    // Start date should be earlier than end date
+    if(new Date(startDate) > new Date(endDate)) {
+      throw new BadRequestError(MESSAGES.DATES_VALIDATION);
+    }
+    const filters = {
+      checkoutDate: {
+        [Op.between]: [startDate, endDate],
+      },
+    };
+
+    if (req.query.status) {
+      let status = req.query.status;
+      if (status === "borrowed") {
+        // return borrowed books only
+        filters.returnDate = { [Op.is]: null };
+      } else if (status === "returned") {
+        // return all returned books only
+        filters.returnDate = { [Op.not]: null };
+      } else if (status === "overdue") {
+        // return overdue books only
+        filters.dueDate = { [Op.lt]: new Date() };
+        filters.returnDate = { [Op.is]: null };
+      }
+    }
+
+    let { order, orderBy, limit, offset } = handlePaginationSort(req.query);
+    const options = {
+      order,
+      orderBy,
+      limit,
+      offset,
+    };
+    if (req.query.pageNumber) options.offset = undefined;
+    if (req.query.limit) options.limit = undefined;
+    const rows = await BorrowingsService.getBorrowings(filters, null, options);
+
+    await BorrowingsService.createXLSXReport(rows);
+    res.send({ data: rows });
+  }
 }

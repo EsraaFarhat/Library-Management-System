@@ -1,3 +1,7 @@
+import XLSX from "xlsx";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+
 import BooksEntity from "../models/books.model.mjs";
 import BorrowersEntity from "../models/borrowers.model.mjs";
 import BorrowingsEntity from "../models/borrowings.model.mjs";
@@ -86,5 +90,31 @@ export default class BorrowingsService {
   static async deleteBorrowing(filters) {
     const borrowing = await BorrowingsEntity.destroy({ where: filters });
     return borrowing;
+  }
+
+  static async createXLSXReport(borrowings) {
+    const xlsxData = borrowings.rows.map((borrowing) => ({
+      BookTitle: borrowing.book.title,
+      BorrowerName: borrowing.borrower.name,
+      CheckoutDate: borrowing.checkoutDate,
+      ReturnDate: borrowing.returnDate,
+      DueDate: borrowing.dueDate,
+    }));
+
+    const xlsxFile = `analytical_report_${new Date().toISOString()}.xlsx`;
+    const filePath = path.join(
+      dirname(fileURLToPath(import.meta.url)),
+      "../downloads/",
+      xlsxFile
+    );
+
+    try {
+      const workbook = XLSX.utils.book_new();
+      const dataSheet = XLSX.utils.json_to_sheet(xlsxData);
+      XLSX.utils.book_append_sheet(workbook, dataSheet, "analytics");
+      XLSX.writeFile(workbook, filePath);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
