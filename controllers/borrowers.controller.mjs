@@ -230,7 +230,22 @@ export default class BorrowersController {
       throw new NotFoundError(MESSAGES.BORROWER_NOT_FOUND);
     }
 
-    const rows = await BorrowingsService.getBorrowings({ borrowerId: id }, null, options);
+    const filters = { borrowerId: id };
+    // By default, return all currently borrowed books only
+    filters.returnDate = { [Op.is]: null };
+
+    if (req.query.status) {
+      let status = req.query.status;
+      if (status === "all") {
+        // return all borrowed and returned books
+        delete filters.returnDate;
+      } else if (status === "returned") {
+        // return all returned books only
+        filters.returnDate = { [Op.not]: null };
+      }
+    }
+
+    const rows = await BorrowingsService.getBorrowings(filters, null, options);
 
     res.send({ data: rows });
   }
