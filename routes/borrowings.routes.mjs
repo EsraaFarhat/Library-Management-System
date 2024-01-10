@@ -10,9 +10,14 @@ borrowingsRoutes
   .get(asyncWrapper(BorrowingsController.getBorrowings));
 
 borrowingsRoutes
-  .route("/analytics/date/:startDate/:endDate")
+  .route("/analytics/by_date/:startDate/:endDate")
   // Route to get analytics report of the borrowing process in a specific period
   .get(asyncWrapper(BorrowingsController.getBorrowingsAnalyticsInPeriod));
+
+borrowingsRoutes
+  .route("/analytics/by_month")
+  // Route to get analytics report of the borrowing process
+  .get(asyncWrapper(BorrowingsController.getBorrowingsAnalytics));
 
 borrowingsRoutes
   .route("/:id")

@@ -33,7 +33,8 @@ const MESSAGES = {
   BORROWING_NOT_FOUND: "Borrowing not found",
   BORROWING_DUE_DATE_VALIDATION: "Due date should be in the future",
 
-  DATES_VALIDATION: "start date should be earlier than end date"
+  DATES_VALIDATION: "Start date should be earlier than end date",
+  MONTH_VALIDATION: "Month should be between 1 and 12",
 };
 
 export default MESSAGES;

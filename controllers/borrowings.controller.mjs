@@ -57,7 +57,7 @@ export default class BorrowingsController {
   static async getBorrowingsAnalyticsInPeriod(req, res) {
     const { startDate, endDate } = req.params;
     // Start date should be earlier than end date
-    if(new Date(startDate) > new Date(endDate)) {
+    if (new Date(startDate) > new Date(endDate)) {
       throw new BadRequestError(MESSAGES.DATES_VALIDATION);
     }
     const filters = {
@@ -94,5 +94,49 @@ export default class BorrowingsController {
 
     await BorrowingsService.createXLSXReport(rows);
     res.send({ data: rows });
+  }
+
+  // Function to get analytics report of the borrowing process by month
+  static async getBorrowingsAnalytics(req, res) {
+    let { month } = req.query;
+    // Get the current date
+    const currentDate = new Date();
+    let startDate, endDate;
+    if (!month) {
+      // Subtract one month
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      // Set the date to the first day of the last month
+      currentDate.setDate(1);
+      currentDate.setHours(0, 0, 0, 0); // Set to midnight for the start date
+
+      // Get the last day of the last month
+      endDate = new Date(currentDate);
+      endDate.setMonth(endDate.getMonth() + 1, 0);
+      endDate.setHours(23, 59, 59, 999); // Set to the end of the day
+
+      // Get the start date and end date for the specified month
+      startDate = new Date(currentDate);
+    } else {
+      // Month should be between 1 and 12
+      if (month > 12 || month < 1) {
+        throw new BadRequestError(MESSAGES.MONTH_VALIDATION);
+      }
+
+      currentDate.setMonth(month - 1); // Months are zero-based, so subtract 1
+      currentDate.setDate(1);
+      currentDate.setHours(0, 0, 0, 0);
+      // Get the end date of the specified month
+      endDate = new Date(currentDate);
+      endDate.setMonth(month);
+      endDate.setDate(0);
+      endDate.setHours(23, 59, 59, 999); // Set to the end of the day
+
+      // Get the start date for the specified month
+      startDate = new Date(currentDate);
+    }
+
+    req.params.startDate = startDate;
+    req.params.endDate = endDate;
+    await BorrowingsController.getBorrowingsAnalyticsInPeriod(req, res);
   }
 }

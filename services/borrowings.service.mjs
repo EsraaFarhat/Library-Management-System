@@ -93,13 +93,36 @@ export default class BorrowingsService {
   }
 
   static async createXLSXReport(borrowings) {
-    const xlsxData = borrowings.rows.map((borrowing) => ({
-      BookTitle: borrowing.book.title,
-      BorrowerName: borrowing.borrower.name,
-      CheckoutDate: borrowing.checkoutDate,
-      ReturnDate: borrowing.returnDate,
-      DueDate: borrowing.dueDate,
-    }));
+    let rows = [];
+    borrowings.rows.forEach((row) => {
+      rows.push([
+        row.book.title,
+        row.borrower.name,
+        new Date(row.checkoutDate).toLocaleString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        row.returnDate
+          ? new Date(row.returnDate).toLocaleString("en-US", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          : null,
+        new Date(row.dueDate).toLocaleString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      ]);
+    });
 
     const xlsxFile = `analytical_report_${new Date().toISOString()}.xlsx`;
     const filePath = path.join(
@@ -110,7 +133,21 @@ export default class BorrowingsService {
 
     try {
       const workbook = XLSX.utils.book_new();
-      const dataSheet = XLSX.utils.json_to_sheet(xlsxData);
+      const dataSheet = XLSX.utils.json_to_sheet([]);
+      XLSX.utils.sheet_add_aoa(
+        dataSheet,
+        [
+          [
+            "BookTitle",
+            "BorrowerName",
+            "CheckoutDate",
+            "ReturnDate",
+            "DueDate",
+          ],
+        ],
+        { origin: "A1" }
+      );
+      XLSX.utils.sheet_add_aoa(dataSheet, rows, { origin: "A2" });
       XLSX.utils.book_append_sheet(workbook, dataSheet, "analytics");
       XLSX.writeFile(workbook, filePath);
     } catch (error) {
