@@ -1,6 +1,7 @@
 import { Router } from "express";
 import asyncWrapper from "../shared/async-wrapper.mjs";
 import BooksController from "../controllers/books.controller.mjs";
+import { rateLimiting } from "../middlewares/rate-limiting.middleware.mjs";
 
 const booksRoutes = Router();
 
@@ -9,7 +10,7 @@ booksRoutes
   // Route to create a new book
   .post(asyncWrapper(BooksController.createBook))
   // Route to get all books for the current user
-  .get(asyncWrapper(BooksController.getBooks));
+  .get(rateLimiting, asyncWrapper(BooksController.getBooks));
 
 booksRoutes
   .route("/:id")
@@ -19,6 +20,5 @@ booksRoutes
   .put(asyncWrapper(BooksController.updateBook))
   // Route to delete book by ID
   .delete(asyncWrapper(BooksController.deleteBook));
-
 
 export default booksRoutes;

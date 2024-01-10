@@ -99,9 +99,9 @@ export default class BorrowingsController {
   // Function to get analytics report of the borrowing process by month
   static async getBorrowingsAnalytics(req, res) {
     let { month } = req.query;
-    // Get the current date
     const currentDate = new Date();
     let startDate, endDate;
+    // By default get the last month
     if (!month) {
       // Subtract one month
       currentDate.setMonth(currentDate.getMonth() - 1);

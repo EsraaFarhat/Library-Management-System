@@ -1,13 +1,14 @@
 import { Router } from "express";
 import asyncWrapper from "../shared/async-wrapper.mjs";
 import BorrowersController from "../controllers/borrowers.controller.mjs";
+import { rateLimiting } from "../middlewares/rate-limiting.middleware.mjs";
 
 const borrowersRoutes = Router();
 
 borrowersRoutes
   .route("/")
   // Route to create a new borrower
-  .post(asyncWrapper(BorrowersController.createBorrower))
+  .post(rateLimiting, asyncWrapper(BorrowersController.createBorrower))
   // Route to get all borrowers for the current user
   .get(asyncWrapper(BorrowersController.getBorrowers));
 
