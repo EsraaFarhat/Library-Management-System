@@ -5,7 +5,21 @@ import BorrowingsEntity from "../models/borrowings.model.mjs";
 export default class BorrowingsService {
   static async getBorrowingById(id, attributes) {
     const borrowing = await BorrowingsEntity.findByPk(id, {
-      attributes,
+      attributes: attributes
+        ? attributes
+        : ["id", "checkoutDate", "returnDate", "dueDate"],
+      include: [
+        {
+          model: BooksEntity,
+          as: "book",
+          attributes: ["id", "title", "author", "ISBN"],
+        },
+        {
+          model: BorrowersEntity,
+          as: "borrower",
+          attributes: ["id", "name", "email"],
+        },
+      ],
     });
     return borrowing;
   }

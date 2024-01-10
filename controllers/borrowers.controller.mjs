@@ -237,11 +237,15 @@ export default class BorrowersController {
     if (req.query.status) {
       let status = req.query.status;
       if (status === "all") {
-        // return all borrowed and returned books
+        // return all books
         delete filters.returnDate;
       } else if (status === "returned") {
         // return all returned books only
         filters.returnDate = { [Op.not]: null };
+      } else if (status === "overdue") {
+        // return overdue books only
+        filters.dueDate = { [Op.lt]: new Date() };
+        filters.returnDate = { [Op.is]: null };
       }
     }
 

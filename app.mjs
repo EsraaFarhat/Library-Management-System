@@ -9,6 +9,7 @@ import AppErrorHandler from "./config/error.mjs";
 import { morganErrorHandler, morganSuccessHandler } from "./config/morgan.mjs";
 import booksRoutes from "./routes/books.routes.mjs";
 import borrowersRoutes from "./routes/borrowers.routes.mjs";
+import borrowingsRoutes from "./routes/borrowings.routes.mjs";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(compression());
 
 app.use("/books", booksRoutes);
 app.use("/borrowers", borrowersRoutes);
+app.use("/borrowings", borrowingsRoutes);
 
 app.use(AppErrorHandler.handler);
 app.use(AppErrorHandler.notFound);
