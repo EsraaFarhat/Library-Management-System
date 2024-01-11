@@ -59,6 +59,21 @@ export default class BorrowersService {
     const schema = Joi.object({
       name: Joi.string().max(255).required(),
       email: Joi.string().email().max(255).required(),
+      password: Joi.string()
+        .min(6)
+        .max(30)
+        .trim()
+        .regex(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{6,}$/
+        )
+        .messages({
+          "string.base": "Password must be a string.",
+          "string.empty": "Password cannot be empty.",
+          "string.min": "Password must be at least 6 characters long.",
+          "string.pattern.base": `password must include at least one number, an uppercase letter, a lowercase letter and a special character.`,
+          "any.required": "Password is required and cannot be null.",
+        })
+        .required(),
     });
 
     return schema.validate(borrower);
@@ -68,6 +83,20 @@ export default class BorrowersService {
     const schema = Joi.object({
       name: Joi.string().max(255),
       email: Joi.string().email().max(255),
+      password: Joi.string()
+        .min(6)
+        .max(30)
+        .trim()
+        .regex(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{6,}$/
+        )
+        .messages({
+          "string.base": "Password must be a string.",
+          "string.empty": "Password cannot be empty.",
+          "string.min": "Password must be at least 6 characters long.",
+          "string.pattern.base": `password must include at least one number, an uppercase letter, a lowercase letter and a special character.`,
+          "any.required": "Password is required and cannot be null.",
+        }),
     });
 
     return schema.validate(borrower);
@@ -87,6 +116,28 @@ export default class BorrowersService {
       borrowingsIds: Joi.array().items(Joi.string().uuid()).required(),
     });
 
+    return schema.validate(body);
+  };
+
+  static borrowerLoginSchema = (body) => {
+    const schema = Joi.object({
+      email: Joi.string().max(255).email().required(),
+      password: Joi.string()
+        .min(6)
+        .max(30)
+        .trim()
+        .regex(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{6,}$/
+        )
+        .messages({
+          "string.base": "Password must be a string.",
+          "string.empty": "Password cannot be empty.",
+          "string.min": "Password must be at least 6 characters long.",
+          "string.pattern.base": `password must include at least one number, an uppercase letter, a lowercase letter and a special character.`,
+          "any.required": "Password is required and cannot be null.",
+        })
+        .required(),
+    });
     return schema.validate(body);
   };
 }

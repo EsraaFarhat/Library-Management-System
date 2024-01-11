@@ -1,9 +1,11 @@
 import { Router } from "express";
 import asyncWrapper from "../shared/async-wrapper.mjs";
 import BorrowingsController from "../controllers/borrowings.controller.mjs";
+import authMiddleware from "../middlewares/auth.middleware.mjs";
 
 const borrowingsRoutes = Router();
 
+borrowingsRoutes.use(asyncWrapper(authMiddleware));
 borrowingsRoutes
   .route("/")
   // Route to get all borrowings for the current user

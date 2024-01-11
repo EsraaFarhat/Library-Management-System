@@ -7,6 +7,7 @@ import config from "./config/config.mjs";
 import "./database/connection.mjs";
 import AppErrorHandler from "./config/error.mjs";
 import { morganErrorHandler, morganSuccessHandler } from "./config/morgan.mjs";
+import authRoutes from "./routes/auth.routes.mjs";
 import booksRoutes from "./routes/books.routes.mjs";
 import borrowersRoutes from "./routes/borrowers.routes.mjs";
 import borrowingsRoutes from "./routes/borrowings.routes.mjs";
@@ -30,6 +31,7 @@ app.use(
 
 app.use(compression());
 
+app.use("/auth", authRoutes);
 app.use("/books", booksRoutes);
 app.use("/borrowers", borrowersRoutes);
 app.use("/borrowings", borrowingsRoutes);

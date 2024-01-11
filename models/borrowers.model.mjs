@@ -1,8 +1,13 @@
 import { DataTypes, Model } from "sequelize";
+import bcrypt from "bcrypt";
 
 import sequelize from "../database/connection.mjs";
 
-export default class Borrower extends Model {}
+export default class Borrower extends Model {
+  async comparePassword(plainPassword) {
+    return await bcrypt.compare(plainPassword, this.password);
+  }
+}
 
 Borrower.init(
   {
@@ -23,6 +28,10 @@ Borrower.init(
         isEmail: true,
       },
     },
+    password: {
+      type: DataTypes.STRING(1024),
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -38,5 +47,19 @@ Borrower.init(
         fields: ["email"],
       },
     ],
+    hooks: {
+      beforeCreate: async (borrower) => {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(borrower.password, salt);
+        borrower.password = hashedPassword;
+      },
+      beforeUpdate: async (borrower) => {
+        if (borrower.changed("password")) {
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(borrower.password, salt);
+          borrower.password = hashedPassword;
+        }
+      },
+    },
   }
 );

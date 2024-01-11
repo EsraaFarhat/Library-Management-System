@@ -1,4 +1,5 @@
 import { Op, Sequelize } from "sequelize";
+import _ from "lodash";
 
 import { BadRequestError, NotFoundError } from "../shared/app-error.mjs";
 import BorrowersService from "../services/borrowers.service.mjs";
@@ -25,7 +26,9 @@ export default class BorrowersController {
     }
     let borrower = await BorrowersService.addBorrower(req.body);
 
-    res.status(201).send({ data: borrower });
+    res
+      .status(201)
+      .send({ data: _.pick(borrower, ["id", "name", "email", "createdAt"]) });
   }
 
   // Function to get all borrowers
@@ -49,7 +52,8 @@ export default class BorrowersController {
       filters.email = req.query.email.toLowerCase();
     }
 
-    const rows = await BorrowersService.getBorrowers(filters, null, options);
+    const select = ["id", "name", "email", "createdAt", "updatedAt"];
+    const rows = await BorrowersService.getBorrowers(filters, select, options);
 
     res.send({ data: rows });
   }
@@ -59,7 +63,8 @@ export default class BorrowersController {
     const { id } = req.params;
     validateUUID(id);
 
-    let borrower = await BorrowersService.getBorrowerById(id);
+    const select = ["id", "name", "email", "createdAt", "updatedAt"];
+    let borrower = await BorrowersService.getBorrowerById(id, select);
     if (!borrower) {
       throw new NotFoundError(MESSAGES.BORROWER_NOT_FOUND);
     }
@@ -98,7 +103,11 @@ export default class BorrowersController {
       req.body
     );
 
-    res.send({ data: updatedBorrower });
+    res.send({
+      data: updatedBorrower
+        ? _.pick(updatedBorrower, ["id", "name", "email", "createdAt"])
+        : null,
+    });
   }
 
   // Function to delete borrower by ID

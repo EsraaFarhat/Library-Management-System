@@ -33,6 +33,12 @@ Borrowing.init(
       {
         fields: ["id"],
       },
+      {
+        fields: ["bookId"],
+      },
+      {
+        fields: ["borrowerId"],
+      },
     ],
   }
 );

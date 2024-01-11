@@ -35,6 +35,11 @@ const MESSAGES = {
 
   DATES_VALIDATION: "Start date should be earlier than end date",
   MONTH_VALIDATION: "Month should be between 1 and 12",
+
+  INVALID_CREDENTIALS: "invalid email or password",
+  AUTHENTICATION_FAILED: "Unable to authenticate",
+  EXPIRED_TOKEN: "Token has expired",
+  INVALID_TOKEN: "Invalid token",
 };
 
 export default MESSAGES;

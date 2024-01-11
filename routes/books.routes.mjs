@@ -2,9 +2,11 @@ import { Router } from "express";
 import asyncWrapper from "../shared/async-wrapper.mjs";
 import BooksController from "../controllers/books.controller.mjs";
 import { rateLimiting } from "../middlewares/rate-limiting.middleware.mjs";
+import authMiddleware from "../middlewares/auth.middleware.mjs";
 
 const booksRoutes = Router();
 
+booksRoutes.use(asyncWrapper(authMiddleware))
 booksRoutes
   .route("/")
   // Route to create a new book
