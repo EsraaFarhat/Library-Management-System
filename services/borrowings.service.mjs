@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import BooksEntity from "../models/books.model.mjs";
 import BorrowersEntity from "../models/borrowers.model.mjs";
 import BorrowingsEntity from "../models/borrowings.model.mjs";
+import logger from "../shared/logger.mjs";
 
 export default class BorrowingsService {
   static async getBorrowingById(id, attributes) {
@@ -124,11 +125,11 @@ export default class BorrowingsService {
       ]);
     });
 
-    const xlsxFile = `analytical_report_${new Date().toISOString()}.xlsx`;
+    const xlsxFileName = `analytical_report_${new Date().toISOString()}.xlsx`;
     const filePath = path.join(
       dirname(fileURLToPath(import.meta.url)),
       "../downloads/",
-      xlsxFile
+      xlsxFileName
     );
 
     try {
@@ -150,8 +151,9 @@ export default class BorrowingsService {
       XLSX.utils.sheet_add_aoa(dataSheet, rows, { origin: "A2" });
       XLSX.utils.book_append_sheet(workbook, dataSheet, "analytics");
       XLSX.writeFile(workbook, filePath);
+      return xlsxFileName;
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   }
 }

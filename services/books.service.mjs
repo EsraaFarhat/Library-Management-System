@@ -60,7 +60,7 @@ export default class BooksService {
       title: Joi.string().max(255).required(),
       author: Joi.string().max(255).required(),
       ISBN: Joi.string().max(255).required(),
-      availableQuantity: Joi.number().required(),
+      availableQuantity: Joi.number().min(0).required(),
       shelfLocation: Joi.string().max(255).required(),
     });
 
@@ -72,7 +72,7 @@ export default class BooksService {
       title: Joi.string().max(255),
       author: Joi.string().max(255),
       ISBN: Joi.string().max(255),
-      availableQuantity: Joi.number(),
+      availableQuantity: Joi.number().min(0),
       shelfLocation: Joi.string().max(255),
     });
 

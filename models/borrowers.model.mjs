@@ -53,11 +53,11 @@ Borrower.init(
         const hashedPassword = await bcrypt.hash(borrower.password, salt);
         borrower.password = hashedPassword;
       },
-      beforeUpdate: async (borrower) => {
-        if (borrower.changed("password")) {
+      beforeBulkUpdate: async (borrower) => {
+        if (borrower.attributes.password) {
           const salt = await bcrypt.genSalt(10);
-          const hashedPassword = await bcrypt.hash(borrower.password, salt);
-          borrower.password = hashedPassword;
+          const hashedPassword = await bcrypt.hash(borrower.attributes.password, salt);
+          borrower.attributes.password = hashedPassword;
         }
       },
     },

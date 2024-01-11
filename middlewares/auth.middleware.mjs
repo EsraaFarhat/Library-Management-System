@@ -24,6 +24,9 @@ const authMiddleware = async (req, res, next) => {
       decodedToken.borrowerId,
       ["id", "name", "email"]
     );
+    if(!user){
+      throw new UnauthorizedError(MESSAGES.AUTHENTICATION_FAILED);
+    }
     // Attach the user object to the request for further use in subsequent middleware or routes
     req.user = user.dataValues;
 

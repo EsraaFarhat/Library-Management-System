@@ -2,6 +2,8 @@ import express from "express";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 
 import config from "./config/config.mjs";
 import "./database/connection.mjs";
@@ -17,6 +19,9 @@ const app = express();
 app.use(morganSuccessHandler);
 app.use(morganErrorHandler);
 app.use(cors());
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use("/files", express.static(path.join(__dirname, "./downloads")));
 
 app.use(helmet());
 

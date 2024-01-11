@@ -92,8 +92,14 @@ export default class BorrowingsController {
     if (req.query.limit) options.limit = undefined;
     const rows = await BorrowingsService.getBorrowings(filters, null, options);
 
-    await BorrowingsService.createXLSXReport(rows);
-    res.send({ data: rows });
+    let fileName = await BorrowingsService.createXLSXReport(rows);
+    res.send({
+      data: {
+        fileUrl: `/files/${fileName}`,
+        count: rows.count,
+        rows: rows.rows,
+      },
+    });
   }
 
   // Function to get analytics report of the borrowing process by month
