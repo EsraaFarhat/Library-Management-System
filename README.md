@@ -136,9 +136,3 @@ npm start
 ## Documentation
 
 Swagger documentation can be accessed at [http://localhost:3000/api-docs/](http://localhost:3000/api-docs/).
-
-Postman collection can be accessed [here](https://api.postman.com/collections/14403585-6b6b4454-24a2-4f50-a6c9-80264ac58bf1?access_key=PMAT-01HKW1X665GXV3FKTACATQD3F5)
-
-- **Notes:**
-   - Please ensure that your server is running before testing the API in Postman or Swagger.
-   - Add environment variable `url`: [http://localhost:3000](http://localhost:3000) in your postman environment
