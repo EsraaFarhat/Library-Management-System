@@ -30,7 +30,7 @@
     ],
     "security": [
         {
-            "bearerAuth": []
+            "BearerAuth": []
         }
     ],
     "paths": {
@@ -40,6 +40,7 @@
                     "Auth"
                 ],
                 "summary": "Log in",
+                "security": [],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -102,7 +103,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Create a new book",
@@ -152,7 +153,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get all books",
@@ -254,7 +255,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get a book by ID",
@@ -314,7 +315,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Update a book by ID",
@@ -384,7 +385,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Delete a book by ID",
@@ -439,6 +440,7 @@
                 "tags": [
                     "Borrowers"
                 ],
+                "security": [],
                 "summary": "Create a new borrower",
                 "requestBody": {
                     "required": true,
@@ -484,7 +486,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get all borrowers",
@@ -576,7 +578,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get a borrower by ID",
@@ -634,7 +636,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Update a borrower by ID",
@@ -702,7 +704,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Delete a borrower by ID",
@@ -759,7 +761,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Borrow books for a borrower",
@@ -842,7 +844,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Return books for a borrower",
@@ -920,7 +922,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get books for a borrower",
@@ -1047,7 +1049,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get all borrowings",
@@ -1146,7 +1148,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get a borrowing by ID",
@@ -1208,7 +1210,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get analytics report of borrowing process by month",
@@ -1311,7 +1313,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "summary": "Get analytics report of borrowing process in a specific period",
@@ -1418,14 +1420,14 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
         "schemas": {
-            "securitySchemes": {
-                "bearerAuth": {
-                    "type": "http",
-                    "scheme": "bearer",
-                    "bearerFormat": "JWT"
-                }
-            },
             "Login": {
                 "type": "object",
                 "properties": {
@@ -1491,6 +1493,11 @@
                     "password"
                 ]
             }
-        }
+        },
+        "security": [
+            {
+                "BearerAuth": []
+            }
+        ]
     }
 }
